@@ -18,6 +18,7 @@
 		E2A3C6FE2578196F006D1B01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2A3C6FC2578196F006D1B01 /* LaunchScreen.storyboard */; };
 		E2A3C7092578196F006D1B01 /* MarvelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C7082578196F006D1B01 /* MarvelTests.swift */; };
 		E2A3C7142578196F006D1B01 /* MarvelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C7132578196F006D1B01 /* MarvelUITests.swift */; };
+		E2A3C75925782254006D1B01 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C75825782254006D1B01 /* MainTabController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		E2A3C70F2578196F006D1B01 /* MarvelUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MarvelUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2A3C7132578196F006D1B01 /* MarvelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelUITests.swift; sourceTree = "<group>"; };
 		E2A3C7152578196F006D1B01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2A3C75825782254006D1B01 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		E3CDCB3A8CC4ED1495E6A2CA /* Pods-MarvelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelTests.debug.xcconfig"; path = "Target Support Files/Pods-MarvelTests/Pods-MarvelTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F1ABA347C55CC9AEC0966CF8 /* Pods_Marvel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Marvel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7B6F2E1EA08E402284E5586 /* Pods-Marvel-MarvelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marvel-MarvelUITests.debug.xcconfig"; path = "Target Support Files/Pods-Marvel-MarvelUITests/Pods-Marvel-MarvelUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				E2A3C6F72578196E006D1B01 /* Main.storyboard */,
 				E2A3C6FA2578196F006D1B01 /* Assets.xcassets */,
 				E2A3C6FC2578196F006D1B01 /* LaunchScreen.storyboard */,
+				E2A3C75825782254006D1B01 /* MainTabController.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 			files = (
 				E2A3C6F62578196E006D1B01 /* ViewController.swift in Sources */,
 				E2A3C6F22578196E006D1B01 /* AppDelegate.swift in Sources */,
+				E2A3C75925782254006D1B01 /* MainTabController.swift in Sources */,
 				E2A3C6F42578196E006D1B01 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
