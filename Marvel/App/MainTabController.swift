@@ -49,7 +49,7 @@ class MainTabController: UITabBarController {
 
         let navController = UINavigationController(rootViewController: rootViewController)
         navController.tabBarItem.image = image
-        navController.tabBarItem.title = "Favourites"
+        navController.tabBarItem.title = "Favourites".localized()
         navController.navigationBar.barTintColor = .white
 
         return navController

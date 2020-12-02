@@ -19,6 +19,8 @@
 		E2A3C7092578196F006D1B01 /* MarvelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C7082578196F006D1B01 /* MarvelTests.swift */; };
 		E2A3C7142578196F006D1B01 /* MarvelUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C7132578196F006D1B01 /* MarvelUITests.swift */; };
 		E2A3C75925782254006D1B01 /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C75825782254006D1B01 /* MainTabController.swift */; };
+		E2A3C76A257846F5006D1B01 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2A3C76C257846F5006D1B01 /* Localizable.strings */; };
+		E2A3C77D257847C8006D1B01 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2A3C77C257847C8006D1B01 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,11 @@
 		E2A3C7132578196F006D1B01 /* MarvelUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelUITests.swift; sourceTree = "<group>"; };
 		E2A3C7152578196F006D1B01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2A3C75825782254006D1B01 /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
+		E2A3C7602578465A006D1B01 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
+		E2A3C7612578465A006D1B01 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		E2A3C76B257846F5006D1B01 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E2A3C7702578470D006D1B01 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E2A3C77C257847C8006D1B01 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		E3CDCB3A8CC4ED1495E6A2CA /* Pods-MarvelTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelTests.debug.xcconfig"; path = "Target Support Files/Pods-MarvelTests/Pods-MarvelTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F1ABA347C55CC9AEC0966CF8 /* Pods_Marvel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Marvel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7B6F2E1EA08E402284E5586 /* Pods-Marvel-MarvelUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marvel-MarvelUITests.debug.xcconfig"; path = "Target Support Files/Pods-Marvel-MarvelUITests/Pods-Marvel-MarvelUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +152,7 @@
 				E2A3C75125782054006D1B01 /* API */,
 				E2A3C75025782039006D1B01 /* App */,
 				E2A3C6FF2578196F006D1B01 /* Info.plist */,
+				E2A3C76C257846F5006D1B01 /* Localizable.strings */,
 			);
 			path = Marvel;
 			sourceTree = "<group>";
@@ -184,6 +192,7 @@
 				E2A3C6FA2578196F006D1B01 /* Assets.xcassets */,
 				E2A3C6FC2578196F006D1B01 /* LaunchScreen.storyboard */,
 				E2A3C75825782254006D1B01 /* MainTabController.swift */,
+				E2A3C77C257847C8006D1B01 /* Extensions.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -287,6 +296,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = E2A3C6E52578196E006D1B01;
 			productRefGroup = E2A3C6EF2578196E006D1B01 /* Products */;
@@ -306,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2A3C6FE2578196F006D1B01 /* LaunchScreen.storyboard in Resources */,
+				E2A3C76A257846F5006D1B01 /* Localizable.strings in Resources */,
 				E2A3C6FB2578196F006D1B01 /* Assets.xcassets in Resources */,
 				E2A3C6F92578196E006D1B01 /* Main.storyboard in Resources */,
 			);
@@ -452,6 +463,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2A3C77D257847C8006D1B01 /* Extensions.swift in Sources */,
 				E2A3C6F62578196E006D1B01 /* ViewController.swift in Sources */,
 				E2A3C6F22578196E006D1B01 /* AppDelegate.swift in Sources */,
 				E2A3C75925782254006D1B01 /* MainTabController.swift in Sources */,
@@ -495,6 +507,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				E2A3C6F82578196E006D1B01 /* Base */,
+				E2A3C7602578465A006D1B01 /* es */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -503,8 +516,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				E2A3C6FD2578196F006D1B01 /* Base */,
+				E2A3C7612578465A006D1B01 /* es */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		E2A3C76C257846F5006D1B01 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E2A3C76B257846F5006D1B01 /* en */,
+				E2A3C7702578470D006D1B01 /* es */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -514,6 +537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -575,6 +599,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
