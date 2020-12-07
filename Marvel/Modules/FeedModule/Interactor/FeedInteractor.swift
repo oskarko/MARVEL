@@ -11,14 +11,20 @@ import Foundation
 class FeedInteractor: FeedPresenterToInteractorProtocol {
 
     // MARK: Properties
-    
+
     weak var presenter: FeedInteractorToPresenterProtocol?
     var localDatamanager: FeedInteractorToLocalDataManagerProtocol?
     var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol?
 
     func fetchCharacters() {
-        // call to our remoteService to get MARVEL characters
+        // call to our remoteService to get MARVEL characters.
         remoteDatamanager?.fetchCharacters()
+    }
+
+    func searchCharacter(withName name: String) {
+        // call to our remoteService to get MARVEL characters
+        // with such as name contains this one.
+        remoteDatamanager?.searchCharacter(withName: name)
     }
 
 }
@@ -32,6 +38,6 @@ extension FeedInteractor: FeedRemoteDataManagerToInteractorProtocol {
     }
 
     func fetchCharactersWithFail() {
-        // We got some errors while fetching characters from MARVEL API
+        // We got some errors while fetching characters from MARVEL API.
     }
 }

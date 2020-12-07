@@ -27,8 +27,9 @@ protocol FeedViewToPresenterProtocol: class {
     var view: FeedPresenterToViewProtocol? { get set }
     var interactor: FeedPresenterToInteractorProtocol? { get set }
     var router: FeedPresenterToRouteProtocol? { get set }
-    
+
     func viewDidLoad()
+    func searchCharacter(withName name: String)
 }
 
 protocol FeedInteractorToPresenterProtocol: class {
@@ -44,6 +45,7 @@ protocol FeedPresenterToInteractorProtocol: class {
     var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol? { get set }
 
     func fetchCharacters()
+    func searchCharacter(withName name: String)
 }
 
 protocol FeedInteractorToDataManagerProtocol: class {
@@ -55,6 +57,7 @@ protocol FeedInteractorToRemoteDataManagerProtocol: class {
     var interactor: FeedRemoteDataManagerToInteractorProtocol? { get set }
 
     func fetchCharacters()
+    func searchCharacter(withName name: String)
 }
 
 protocol FeedRemoteDataManagerToInteractorProtocol: class {

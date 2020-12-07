@@ -17,6 +17,8 @@ class FeedView: UICollectionViewController {
 
     var presenter: FeedViewToPresenterProtocol?
 
+    private let searchBar = UISearchBar()
+
     private var characters = [Character]() {
         didSet {
             DispatchQueue.main.async {
@@ -33,18 +35,58 @@ class FeedView: UICollectionViewController {
         presenter?.viewDidLoad()
     }
 
+    // MARK: - Selectors
+
+    @objc func handleShowSearchBar() {
+        search(shouldShow: true)
+        searchBar.becomeFirstResponder()
+    }
+
     // MARK: - Helpers
 
     func configureUI() {
+        showSearchBarButton(shouldShow: true)
+        searchBar.sizeToFit()
+        searchBar.delegate = self
+        searchBar.placeholder = "Search for a character 🧞‍♂️"
+        definesPresentationContext = false
+
+        if let textField = searchBar.value(forKey: "searchField") as? UITextField {
+            textField.textColor = .darkGray
+            textField.backgroundColor = .white
+        }
+
         view.backgroundColor = .white
 
         collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.backgroundColor = .white
+        navigationItem.titleView = imageForTitleView()
+    }
 
+    // MARVEL logo for the navigation title view
+    private func imageForTitleView() -> UIImageView {
         let imageView = UIImageView(image: UIImage(named: "MARVEL"))
         imageView.contentMode = .scaleAspectFit
         imageView.setDimensions(width: 80, height: 44)
-        navigationItem.titleView = imageView
+        return imageView
+    }
+
+    // If shoouldShow is true, we show the search icon.
+    private func showSearchBarButton(shouldShow: Bool) {
+        if shouldShow {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search,
+                                                                target: self,
+                                                                action: #selector(handleShowSearchBar))
+        } else {
+            navigationItem.rightBarButtonItem = nil
+        }
+    }
+
+    // Show the searchBar or the search icon + MARVEL logo.
+    private func search(shouldShow: Bool) {
+        showSearchBarButton(shouldShow: !shouldShow)
+        searchBar.showsCancelButton = shouldShow
+        navigationItem.titleView = shouldShow ? searchBar : imageForTitleView()
     }
 }
 
@@ -95,5 +137,26 @@ extension FeedView: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         return CGSize(width: (view.frame.width - 12) / 2, height: 200)
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension FeedView: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        search(shouldShow: false)
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("DEBUG: Search bar did begin editing...")
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("DEBUG: Search bar did end editing...")
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print("DEBUG: Search text is: \(searchText)")
+        presenter?.searchCharacter(withName: searchText)
     }
 }

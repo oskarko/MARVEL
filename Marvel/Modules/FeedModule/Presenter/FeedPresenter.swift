@@ -24,6 +24,10 @@ extension FeedPresenter: FeedViewToPresenterProtocol {
     func viewDidLoad() {
         interactor?.fetchCharacters()
     }
+
+    func searchCharacter(withName name: String) {
+        interactor?.searchCharacter(withName: name)
+    }
 }
 
 // MARK: - FeedInteractorToPresenterProtocol

@@ -20,12 +20,16 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
     }
 
     private func updateCharacters(response: Result<MarvelData<Character>>) {
-            switch response {
-            case .success(let response):
-                print("DEBUG: We got \(response.data.items.count) characters!")
-                interactor?.fetchCharactersWithSuccess(response.data.items)
-            case .fail(let error):
-                print("DEBUG: Something went wrong. Error: \(error.localizedDescription)")
-            }
+        switch response {
+        case .success(let response):
+            print("DEBUG: We got \(response.data.items.count) characters!")
+            interactor?.fetchCharactersWithSuccess(response.data.items)
+        case .fail(let error):
+            print("DEBUG: Something went wrong. Error: \(error.localizedDescription)")
         }
+    }
+
+    func searchCharacter(withName name: String) {
+        RequestsNetworkGateway().fetch(ofType: .charactersByName(name, 40, 0), onComplete: updateCharacters)
+    }
 }

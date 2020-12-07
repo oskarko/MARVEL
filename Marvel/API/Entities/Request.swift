@@ -11,6 +11,7 @@ import Foundation
 enum Request {
     case character(Int)
     case characters(Int, Int)
+    case charactersByName(String, Int, Int)
     case comics(Int)
     case series(Int)
 }
