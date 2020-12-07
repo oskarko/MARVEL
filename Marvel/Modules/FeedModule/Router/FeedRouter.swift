@@ -10,11 +10,12 @@ import Foundation
 import UIKit
 
 class FeedRouter: FeedPresenterToRouteProtocol {
-    
+
     class func createFeedModule(navController: Bool) -> UIViewController {
-        let view = FeedView ()
+        let view = FeedView(collectionViewLayout: UICollectionViewFlowLayout())
         let presenter: FeedViewToPresenterProtocol & FeedInteractorToPresenterProtocol = FeedPresenter()
-        let interactor: FeedPresenterToInteractorProtocol & FeedRemoteDataManagerToInteractorProtocol = FeedInteractor()
+        let interactor: FeedPresenterToInteractorProtocol
+            & FeedRemoteDataManagerToInteractorProtocol = FeedInteractor()
         let localDataManager: FeedInteractorToLocalDataManagerProtocol = FeedLocalDataManager()
         let remoteDataManager: FeedInteractorToRemoteDataManagerProtocol = FeedRemoteDataManager()
         let router: FeedPresenterToRouteProtocol = FeedRouter()

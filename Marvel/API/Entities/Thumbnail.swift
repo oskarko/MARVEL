@@ -19,7 +19,15 @@ struct Thumbnail: Decodable {
 }
 
 enum Extension: String, Decodable {
-    case gif = "gif"
-    case jpg = "jpg"
-    case png = "png"
+    case gif
+    case jpg
+    case png
+
+    var description: String {
+        switch self {
+        case .gif: return "gif"
+        case .jpg: return "jpg"
+        case .png: return "png"
+        }
+    }
 }
