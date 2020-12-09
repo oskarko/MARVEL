@@ -22,9 +22,15 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
     }
 
     func searchCharacter(withName name: String) {
-        // call to our remoteService to get MARVEL characters
-        // with such as name contains this one.
-        remoteDatamanager?.searchCharacter(withName: name)
+        if !name.isEmpty {
+            // call to our remoteService to get MARVEL characters
+            // with such as name contains this one.
+            // Don't forget to replace spaces by "_" in order to get the API works fine.
+            let strippedName = name.replacingOccurrences(of: " ", with: "_")
+            remoteDatamanager?.searchCharacter(withName: strippedName)
+        } else {
+            remoteDatamanager?.fetchCharacters()
+        }
     }
 
 }

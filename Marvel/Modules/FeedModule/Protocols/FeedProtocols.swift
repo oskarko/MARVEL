@@ -15,6 +15,8 @@ protocol FeedPresenterToViewProtocol: class {
 
     func fetchCharactersWithSuccess(_ characters: [Character])
     func fetchCharactersWithFail()
+    func configureSearchBar(shouldShow: Bool)
+    func dismissKeyBoard()
 }
 
 protocol FeedPresenterToRouteProtocol: class {
@@ -30,6 +32,8 @@ protocol FeedViewToPresenterProtocol: class {
 
     func viewDidLoad()
     func searchCharacter(withName name: String)
+    func searchBarCancelButtonClicked()
+    func handleShowSearchBar()
 }
 
 protocol FeedInteractorToPresenterProtocol: class {

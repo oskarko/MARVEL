@@ -38,8 +38,7 @@ class FeedView: UICollectionViewController {
     // MARK: - Selectors
 
     @objc func handleShowSearchBar() {
-        search(shouldShow: true)
-        searchBar.becomeFirstResponder()
+        presenter?.handleShowSearchBar()
     }
 
     // MARK: - Helpers
@@ -100,6 +99,18 @@ extension FeedView: FeedPresenterToViewProtocol {
     func fetchCharactersWithFail() {
 
     }
+
+    func configureSearchBar(shouldShow: Bool) {
+        search(shouldShow: shouldShow)
+
+        if shouldShow {
+            searchBar.becomeFirstResponder()
+        }
+    }
+
+    func dismissKeyBoard() {
+        searchBar.resignFirstResponder()
+    }
 }
 
 // MARK: - UICollectionViewDelegate/DataSource
@@ -112,7 +123,7 @@ extension FeedView {
 
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! CharacterCell
 
@@ -143,8 +154,13 @@ extension FeedView: UICollectionViewDelegateFlowLayout {
 // MARK: - UISearchBarDelegate
 
 extension FeedView: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let characterName = searchBar.text ?? ""
+        presenter?.searchCharacter(withName: characterName)
+    }
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        search(shouldShow: false)
+        presenter?.searchBarCancelButtonClicked()
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -157,6 +173,5 @@ extension FeedView: UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print("DEBUG: Search text is: \(searchText)")
-        presenter?.searchCharacter(withName: searchText)
     }
 }

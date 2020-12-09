@@ -27,6 +27,18 @@ extension FeedPresenter: FeedViewToPresenterProtocol {
 
     func searchCharacter(withName name: String) {
         interactor?.searchCharacter(withName: name)
+        view?.dismissKeyBoard()
+    }
+
+    func searchBarCancelButtonClicked() {
+        interactor?.fetchCharacters()
+        view?.configureSearchBar(shouldShow: false)
+    }
+
+    // MARK: - Selectors
+
+    func handleShowSearchBar() {
+        view?.configureSearchBar(shouldShow: true)
     }
 }
 

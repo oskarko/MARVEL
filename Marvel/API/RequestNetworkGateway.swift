@@ -28,7 +28,8 @@ struct RequestsNetworkGateway: RequestsGateway {
 
         case .characters(let limit, let offset):
             guard let requestURL = URL(string: BASE_URL + "characters?orderBy=name&limit=" +
-                                        "\(limit)&offset=\(offset)&apikey=\(PUBLIC_KEY)&hash=\(hash)&ts=\(TIMESTAMP)") else { return }
+                                        "\(limit)&offset=\(offset)&apikey=\(PUBLIC_KEY)&hash=\(hash)&ts=" +
+                                        "\(TIMESTAMP)") else { return }
 
             RequestAdapter.request(requestURL, onComplete)
 
