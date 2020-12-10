@@ -7,7 +7,13 @@
 //
 
 import Foundation
+import UIKit
 
+let LOGO_WIDTH: CGFloat = 80
+let LOGO_HEIGHT: CGFloat = 44
+let CELL_HEIGHT: CGFloat = 200
+
+let CHARACTERS_BY_PAGE = 40
 let BASE_URL = "https://gateway.marvel.com/v1/public/"
 let TIMESTAMP = 1
 let PUBLIC_KEY = "YOUR_PUBLIC_KEY_HERE"

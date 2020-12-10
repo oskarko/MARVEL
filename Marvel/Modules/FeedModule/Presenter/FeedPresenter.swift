@@ -23,18 +23,22 @@ class FeedPresenter {
 extension FeedPresenter: FeedViewToPresenterProtocol {
     func viewDidLoad() {
         view?.showLoader()
-        interactor?.fetchCharacters()
+        interactor?.fetchCharacters(offset: 0)
     }
 
-    func searchCharacter(withName name: String) {
-        view?.showLoader()
-        interactor?.searchCharacter(withName: name)
+    func searchCharacters(withName name: String, offset: Int) {
+        // For UICollectionView Infinite Scrolling,
+        // We show the loading alert message just the first time.
+        if offset == 0 {
+            view?.showLoader()
+        }
+        interactor?.searchCharacters(withName: name, offset: offset)
         view?.dismissKeyBoard()
     }
 
     func searchBarCancelButtonClicked() {
         view?.showLoader()
-        interactor?.fetchCharacters()
+        interactor?.fetchCharacters(offset: 0)
         view?.configureSearchBar(shouldShow: false)
     }
 
@@ -52,9 +56,12 @@ extension FeedPresenter: FeedViewToPresenterProtocol {
 
 extension FeedPresenter: FeedInteractorToPresenterProtocol {
 
-    func fetchCharactersWithSuccess(_ characters: [Character]) {
+    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool) {
         view?.dismissLoader()
-        view?.fetchCharactersWithSuccess(characters)
+        view?.fetchCharactersWithSuccess(characters, append: append)
+        if !append {
+            view?.scrollToTop()
+        }
     }
 
     func fetchCharactersWithFail(_ error: Error) {

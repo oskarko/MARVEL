@@ -18,14 +18,7 @@ class FeedView: UICollectionViewController {
     var presenter: FeedViewToPresenterProtocol?
 
     private let searchBar = UISearchBar()
-
-    private var characters = [Character]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-    }
+    private var characters = [Character]()
 
     // MARK: Lifecycle
 
@@ -55,10 +48,11 @@ class FeedView: UICollectionViewController {
             textField.backgroundColor = .white
         }
 
-        view.backgroundColor = .white
-
         collectionView.register(CharacterCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.backgroundColor = .white
+        collectionView.prefetchDataSource = self
+
+        view.backgroundColor = .white
         navigationItem.titleView = imageForTitleView()
     }
 
@@ -66,7 +60,7 @@ class FeedView: UICollectionViewController {
     private func imageForTitleView() -> UIImageView {
         let imageView = UIImageView(image: UIImage(named: "MARVEL"))
         imageView.contentMode = .scaleAspectFit
-        imageView.setDimensions(width: 80, height: 44)
+        imageView.setDimensions(width: LOGO_WIDTH, height: LOGO_HEIGHT)
         return imageView
     }
 
@@ -87,13 +81,35 @@ class FeedView: UICollectionViewController {
         searchBar.showsCancelButton = shouldShow
         navigationItem.titleView = shouldShow ? searchBar : imageForTitleView()
     }
+
+    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+        return indexPath.row == characters.count - 1
+            && characters.count % CHARACTERS_BY_PAGE == 0
+    }
+
+    private func calculateIndexPathsToReload(from newCharacters: [Character]) -> [IndexPath] {
+      let startIndex = characters.count - newCharacters.count
+      let endIndex = startIndex + newCharacters.count
+      return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
+    }
 }
 
 // MARK: FeedPresenterToViewProtocol
 
 extension FeedView: FeedPresenterToViewProtocol {
-    func fetchCharactersWithSuccess(_ characters: [Character]) {
-        self.characters = characters
+    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool) {
+        if append {
+            self.characters.append(contentsOf: characters)
+            DispatchQueue.main.async {
+                let indexPathsToReload = self.calculateIndexPathsToReload(from: characters)
+                self.collectionView.insertItems(at: indexPathsToReload)
+            }
+        } else {
+            self.characters = characters
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
 
     func fetchCharactersWithFail(_ error: String) {
@@ -105,6 +121,14 @@ extension FeedView: FeedPresenterToViewProtocol {
 
         if shouldShow {
             searchBar.becomeFirstResponder()
+        }
+    }
+
+    func scrollToTop() {
+        DispatchQueue.main.async {
+            self.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0),
+                                             at: .top,
+                                             animated: true)
         }
     }
 
@@ -139,8 +163,11 @@ extension FeedView {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! CharacterCell
 
-        cell.character = characters[indexPath.row]
-        //cell.delegate = self
+        if isLoadingCell(for: indexPath) {
+            cell.character = nil
+        } else {
+            cell.character = characters[indexPath.row]
+        }
 
         return cell
     }
@@ -151,6 +178,14 @@ extension FeedView {
     }
 }
 
+extension FeedView: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        if indexPaths.contains(where: isLoadingCell) {
+            presenter?.searchCharacters(withName: "", offset: characters.count)
+          }
+    }
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension FeedView: UICollectionViewDelegateFlowLayout {
@@ -158,7 +193,7 @@ extension FeedView: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        return CGSize(width: (view.frame.width - 12) / 2, height: 200)
+        return CGSize(width: (view.frame.width - 12) / 2, height: CELL_HEIGHT)
     }
 }
 
@@ -167,7 +202,7 @@ extension FeedView: UICollectionViewDelegateFlowLayout {
 extension FeedView: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let characterName = searchBar.text ?? ""
-        presenter?.searchCharacter(withName: characterName)
+        presenter?.searchCharacters(withName: characterName, offset: 0)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

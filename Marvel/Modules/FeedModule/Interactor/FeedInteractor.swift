@@ -16,20 +16,20 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
     var localDatamanager: FeedInteractorToLocalDataManagerProtocol?
     var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol?
 
-    func fetchCharacters() {
+    func fetchCharacters(offset: Int) {
         // call to our remoteService to get MARVEL characters.
-        remoteDatamanager?.fetchCharacters()
+        remoteDatamanager?.fetchCharacters(offset: offset)
     }
 
-    func searchCharacter(withName name: String) {
+    func searchCharacters(withName name: String, offset: Int) {
         if !name.isEmpty {
             // call to our remoteService to get MARVEL characters
             // with such as name contains this one.
             // Don't forget to replace spaces by "_" in order to get the API works fine.
             let strippedName = name.replacingOccurrences(of: " ", with: "_")
-            remoteDatamanager?.searchCharacter(withName: strippedName)
+            remoteDatamanager?.searchCharacters(withName: strippedName, offset: offset)
         } else {
-            remoteDatamanager?.fetchCharacters()
+            remoteDatamanager?.fetchCharacters(offset: offset)
         }
     }
 
@@ -38,9 +38,9 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
 // MARK: FeedRemoteDataManagerToInteractorProtocol
 
 extension FeedInteractor: FeedRemoteDataManagerToInteractorProtocol {
-    func fetchCharactersWithSuccess(_ characters: [Character]) {
+    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool) {
         // We got characters from MARVEL API successfully!
-        presenter?.fetchCharactersWithSuccess(characters)
+        presenter?.fetchCharactersWithSuccess(characters, append: append)
     }
 
     func fetchCharactersWithFail(_ error: Error) {

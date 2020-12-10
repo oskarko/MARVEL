@@ -13,9 +13,10 @@ protocol FeedPresenterToViewProtocol: class {
     // Presenter -> View
     var presenter: FeedViewToPresenterProtocol? { get set }
 
-    func fetchCharactersWithSuccess(_ characters: [Character])
+    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool)
     func fetchCharactersWithFail(_ error: String)
     func configureSearchBar(shouldShow: Bool)
+    func scrollToTop()
     func dismissKeyBoard()
     func showLoader()
     func dismissLoader()
@@ -35,7 +36,7 @@ protocol FeedViewToPresenterProtocol: class {
     var router: FeedPresenterToRouteProtocol? { get set }
 
     func viewDidLoad()
-    func searchCharacter(withName name: String)
+    func searchCharacters(withName name: String, offset: Int)
     func searchBarCancelButtonClicked()
     func handleShowSearchBar()
 
@@ -44,7 +45,7 @@ protocol FeedViewToPresenterProtocol: class {
 
 protocol FeedInteractorToPresenterProtocol: class {
     // Interactor -> Presenter
-    func fetchCharactersWithSuccess(_ characters: [Character])
+    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool)
     func fetchCharactersWithFail(_ error: Error)
 }
 
@@ -54,8 +55,8 @@ protocol FeedPresenterToInteractorProtocol: class {
     var localDatamanager: FeedInteractorToLocalDataManagerProtocol? { get set }
     var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol? { get set }
 
-    func fetchCharacters()
-    func searchCharacter(withName name: String)
+    func fetchCharacters(offset: Int)
+    func searchCharacters(withName name: String, offset: Int)
 }
 
 protocol FeedInteractorToDataManagerProtocol: class {
@@ -66,14 +67,14 @@ protocol FeedInteractorToRemoteDataManagerProtocol: class {
     // Interactor -> RemoteDataManager
     var interactor: FeedRemoteDataManagerToInteractorProtocol? { get set }
 
-    func fetchCharacters()
-    func searchCharacter(withName name: String)
+    func fetchCharacters(offset: Int)
+    func searchCharacters(withName name: String, offset: Int)
 }
 
 protocol FeedRemoteDataManagerToInteractorProtocol: class {
     // RemoteDataManager -> Interactor
 
-    func fetchCharactersWithSuccess(_ characters: [Character])
+    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool)
     func fetchCharactersWithFail(_ error: Error)
 }
 
