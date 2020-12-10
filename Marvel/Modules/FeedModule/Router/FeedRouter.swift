@@ -39,4 +39,12 @@ class FeedRouter: FeedPresenterToRouteProtocol {
         return view
     }
 
+    func routeToDetailsView(_ view: FeedPresenterToViewProtocol, character: Character) {
+        if let view = view as? FeedView {
+            let details = DetailsRouter.createDetailsModule(navController: false,
+                                                            character: character)
+            view.navigationController?.pushViewController(details, animated: true)
+        }
+    }
+
 }

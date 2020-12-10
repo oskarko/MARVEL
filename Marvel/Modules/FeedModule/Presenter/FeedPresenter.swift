@@ -22,20 +22,26 @@ class FeedPresenter {
 
 extension FeedPresenter: FeedViewToPresenterProtocol {
     func viewDidLoad() {
+        view?.showLoader()
         interactor?.fetchCharacters()
     }
 
     func searchCharacter(withName name: String) {
+        view?.showLoader()
         interactor?.searchCharacter(withName: name)
         view?.dismissKeyBoard()
     }
 
     func searchBarCancelButtonClicked() {
+        view?.showLoader()
         interactor?.fetchCharacters()
         view?.configureSearchBar(shouldShow: false)
     }
 
-    // MARK: - Selectors
+    // Route to DetailsView
+    func didSelectCharacter(_ view: FeedPresenterToViewProtocol, character: Character) {
+        router?.routeToDetailsView(view, character: character)
+    }
 
     func handleShowSearchBar() {
         view?.configureSearchBar(shouldShow: true)
@@ -47,10 +53,12 @@ extension FeedPresenter: FeedViewToPresenterProtocol {
 extension FeedPresenter: FeedInteractorToPresenterProtocol {
 
     func fetchCharactersWithSuccess(_ characters: [Character]) {
+        view?.dismissLoader()
         view?.fetchCharactersWithSuccess(characters)
     }
 
-    func fetchCharactersWithFail() {
-
+    func fetchCharactersWithFail(_ error: Error) {
+        view?.dismissLoader()
+        view?.fetchCharactersWithFail(error.localizedDescription)
     }
 }

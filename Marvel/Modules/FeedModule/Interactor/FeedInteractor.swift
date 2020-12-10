@@ -43,7 +43,8 @@ extension FeedInteractor: FeedRemoteDataManagerToInteractorProtocol {
         presenter?.fetchCharactersWithSuccess(characters)
     }
 
-    func fetchCharactersWithFail() {
+    func fetchCharactersWithFail(_ error: Error) {
         // We got some errors while fetching characters from MARVEL API.
+        presenter?.fetchCharactersWithFail(error)
     }
 }

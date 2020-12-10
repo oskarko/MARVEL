@@ -9,3 +9,11 @@
 /* MainTabController */
 
 "Favourites" = "Favoritos";
+
+/* FeedView */
+
+"Search for a character" = "Buscar un personaje";
+
+/* JGProgressHUD */
+
+"Loading" = "Cargando";

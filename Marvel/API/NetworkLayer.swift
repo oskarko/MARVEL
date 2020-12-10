@@ -1,5 +1,5 @@
 //
-//  RequestNetworkGateway.swift
+//  NetworkLayer.swift
 //  Marvel
 //
 //  Created by Oscar Rodriguez Garrucho on 7/12/20.
@@ -8,7 +8,11 @@
 
 import Foundation
 
-struct RequestsNetworkGateway: RequestsGateway {
+protocol NetworkProtocol {
+    func fetch<T: Decodable>(ofType: Request, onComplete: @escaping (Result<T>) -> Void)
+}
+
+struct NetworkLayer: NetworkProtocol {
 
     var hash: String {
         let combined = "\(TIMESTAMP)\(PRIVATE_KEY)\(PUBLIC_KEY)"

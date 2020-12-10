@@ -6,6 +6,7 @@ target 'Marvel' do
   use_frameworks!
 
   # Pods for Marvel
+    pod 'JGProgressHUD'
     pod 'RealmSwift'
     pod 'SDWebImage'
     pod 'SwiftLint'

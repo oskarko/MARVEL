@@ -14,14 +14,18 @@ protocol FeedPresenterToViewProtocol: class {
     var presenter: FeedViewToPresenterProtocol? { get set }
 
     func fetchCharactersWithSuccess(_ characters: [Character])
-    func fetchCharactersWithFail()
+    func fetchCharactersWithFail(_ error: String)
     func configureSearchBar(shouldShow: Bool)
     func dismissKeyBoard()
+    func showLoader()
+    func dismissLoader()
 }
 
 protocol FeedPresenterToRouteProtocol: class {
     // Presenter -> Router
     static func createFeedModule(navController: Bool) -> UIViewController
+
+    func routeToDetailsView(_ view: FeedPresenterToViewProtocol, character: Character)
 }
 
 protocol FeedViewToPresenterProtocol: class {
@@ -34,12 +38,14 @@ protocol FeedViewToPresenterProtocol: class {
     func searchCharacter(withName name: String)
     func searchBarCancelButtonClicked()
     func handleShowSearchBar()
+
+    func didSelectCharacter(_ view: FeedPresenterToViewProtocol, character: Character)
 }
 
 protocol FeedInteractorToPresenterProtocol: class {
     // Interactor -> Presenter
     func fetchCharactersWithSuccess(_ characters: [Character])
-    func fetchCharactersWithFail()
+    func fetchCharactersWithFail(_ error: Error)
 }
 
 protocol FeedPresenterToInteractorProtocol: class {
@@ -68,7 +74,7 @@ protocol FeedRemoteDataManagerToInteractorProtocol: class {
     // RemoteDataManager -> Interactor
 
     func fetchCharactersWithSuccess(_ characters: [Character])
-    func fetchCharactersWithFail()
+    func fetchCharactersWithFail(_ error: Error)
 }
 
 protocol FeedInteractorToLocalDataManagerProtocol: class {

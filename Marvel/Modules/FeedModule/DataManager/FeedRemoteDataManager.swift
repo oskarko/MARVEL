@@ -16,7 +16,7 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
 
     func fetchCharacters() {
         // call to MARVEL API to get characters()
-        RequestsNetworkGateway().fetch(ofType: .characters(40, 0), onComplete: updateCharacters)
+        NetworkLayer().fetch(ofType: .characters(40, 0), onComplete: updateCharacters)
     }
 
     private func updateCharacters(response: Result<MarvelData<Character>>) {
@@ -26,10 +26,11 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
             interactor?.fetchCharactersWithSuccess(response.data.items)
         case .fail(let error):
             print("DEBUG: Something went wrong. Error: \(error.localizedDescription)")
+            interactor?.fetchCharactersWithFail(error)
         }
     }
 
     func searchCharacter(withName name: String) {
-        RequestsNetworkGateway().fetch(ofType: .charactersByName(name, 40, 0), onComplete: updateCharacters)
+        NetworkLayer().fetch(ofType: .charactersByName(name, 40, 0), onComplete: updateCharacters)
     }
 }

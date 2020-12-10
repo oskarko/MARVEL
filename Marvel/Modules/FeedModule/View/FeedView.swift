@@ -47,7 +47,7 @@ class FeedView: UICollectionViewController {
         showSearchBarButton(shouldShow: true)
         searchBar.sizeToFit()
         searchBar.delegate = self
-        searchBar.placeholder = "Search for a character 🧞‍♂️"
+        searchBar.placeholder = "Search for a character".localized()
         definesPresentationContext = false
 
         if let textField = searchBar.value(forKey: "searchField") as? UITextField {
@@ -96,8 +96,8 @@ extension FeedView: FeedPresenterToViewProtocol {
         self.characters = characters
     }
 
-    func fetchCharactersWithFail() {
-
+    func fetchCharactersWithFail(_ error: String) {
+        showError(error)
     }
 
     func configureSearchBar(shouldShow: Bool) {
@@ -110,6 +110,18 @@ extension FeedView: FeedPresenterToViewProtocol {
 
     func dismissKeyBoard() {
         searchBar.resignFirstResponder()
+    }
+
+    func showLoader() {
+        DispatchQueue.main.async {
+            self.showLoader(true)
+        }
+    }
+
+    func dismissLoader() {
+        DispatchQueue.main.async {
+            self.showLoader(false)
+        }
     }
 }
 
@@ -135,8 +147,7 @@ extension FeedView {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-//        let controller = TweetController(tweet: tweet)
-//        navigationController?.pushViewController(controller, animated: true)
+        presenter?.didSelectCharacter(self, character: character)
     }
 }
 
