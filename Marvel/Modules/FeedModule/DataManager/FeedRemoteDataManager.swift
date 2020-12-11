@@ -13,10 +13,8 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
     // MARK: Properties
 
     var interactor: FeedRemoteDataManagerToInteractorProtocol?
-    var offset: Int = 0
 
     func fetchCharacters(offset: Int) {
-        self.offset = offset
         // call to MARVEL API to get characters
         NetworkLayer().fetch(ofType: .characters(CHARACTERS_BY_PAGE, offset),
                              onComplete: updateCharacters)
@@ -26,7 +24,7 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
         switch response {
         case .success(let response):
             print("DEBUG: We got \(response.data.items.count) characters!")
-            interactor?.fetchCharactersWithSuccess(response.data.items, append: offset > 0)
+            interactor?.fetchCharactersWithSuccess(response.data.items)
         case .fail(let error):
             print("DEBUG: Something went wrong. Error: \(error.localizedDescription)")
             interactor?.fetchCharactersWithFail(error)
@@ -34,7 +32,6 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
     }
 
     func searchCharacters(withName name: String, offset: Int) {
-        self.offset = offset
         // call to MARVEL API to get characters with a given name
         NetworkLayer().fetch(ofType: .charactersByName(name, CHARACTERS_BY_PAGE, offset),
                              onComplete: updateCharacters)

@@ -86,35 +86,35 @@ class FeedView: UICollectionViewController {
         return indexPath.row == characters.count - 1
             && characters.count % CHARACTERS_BY_PAGE == 0
     }
-
-    private func calculateIndexPathsToReload(from newCharacters: [Character]) -> [IndexPath] {
-      let startIndex = characters.count - newCharacters.count
-      let endIndex = startIndex + newCharacters.count
-      return (startIndex..<endIndex).map { IndexPath(row: $0, section: 0) }
-    }
 }
 
 // MARK: FeedPresenterToViewProtocol
 
 extension FeedView: FeedPresenterToViewProtocol {
-    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool) {
-        if append {
-            self.characters.append(contentsOf: characters)
-            DispatchQueue.main.async {
-                let indexPathsToReload = self.calculateIndexPathsToReload(from: characters)
-                self.collectionView.insertItems(at: indexPathsToReload)
-            }
-        } else {
-            self.characters = characters
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
+
+    // MARK: - API
+
+    func fetchCharactersWithSuccess(_ characters: [Character]) {
+        self.characters = characters
+
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
+    }
+
+    func fetchCharactersWithSuccess(_ characters: [Character], indexPathsToReload: [IndexPath]) {
+        self.characters.append(contentsOf: characters)
+
+        DispatchQueue.main.async {
+            self.collectionView.insertItems(at: indexPathsToReload)
         }
     }
 
     func fetchCharactersWithFail(_ error: String) {
         showError(error)
     }
+
+    // MARK: - UI Helpers
 
     func configureSearchBar(shouldShow: Bool) {
         search(shouldShow: shouldShow)

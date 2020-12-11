@@ -13,7 +13,8 @@ protocol FeedPresenterToViewProtocol: class {
     // Presenter -> View
     var presenter: FeedViewToPresenterProtocol? { get set }
 
-    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool)
+    func fetchCharactersWithSuccess(_ characters: [Character])
+    func fetchCharactersWithSuccess(_ characters: [Character], indexPathsToReload: [IndexPath])
     func fetchCharactersWithFail(_ error: String)
     func configureSearchBar(shouldShow: Bool)
     func scrollToTop()
@@ -74,7 +75,7 @@ protocol FeedInteractorToRemoteDataManagerProtocol: class {
 protocol FeedRemoteDataManagerToInteractorProtocol: class {
     // RemoteDataManager -> Interactor
 
-    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool)
+    func fetchCharactersWithSuccess(_ characters: [Character])
     func fetchCharactersWithFail(_ error: Error)
 }
 

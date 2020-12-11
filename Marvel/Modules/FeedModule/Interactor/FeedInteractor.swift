@@ -16,12 +16,16 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
     var localDatamanager: FeedInteractorToLocalDataManagerProtocol?
     var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol?
 
+    var offset: Int = 0
+
     func fetchCharacters(offset: Int) {
+        self.offset = offset
         // call to our remoteService to get MARVEL characters.
         remoteDatamanager?.fetchCharacters(offset: offset)
     }
 
     func searchCharacters(withName name: String, offset: Int) {
+        self.offset = offset
         if !name.isEmpty {
             // call to our remoteService to get MARVEL characters
             // with such as name contains this one.
@@ -38,9 +42,9 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
 // MARK: FeedRemoteDataManagerToInteractorProtocol
 
 extension FeedInteractor: FeedRemoteDataManagerToInteractorProtocol {
-    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool) {
+    func fetchCharactersWithSuccess(_ characters: [Character]) {
         // We got characters from MARVEL API successfully!
-        presenter?.fetchCharactersWithSuccess(characters, append: append)
+        presenter?.fetchCharactersWithSuccess(characters, append: offset > 0)
     }
 
     func fetchCharactersWithFail(_ error: Error) {
