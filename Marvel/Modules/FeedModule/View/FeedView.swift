@@ -82,7 +82,8 @@ class FeedView: UICollectionViewController {
         navigationItem.titleView = shouldShow ? searchBar : imageForTitleView()
     }
 
-    func isLoadingCell(for indexPath: IndexPath) -> Bool {
+    // This method helps to calculate if a cell is the last one in the collectionView..
+    func isLastCell(for indexPath: IndexPath) -> Bool {
         return indexPath.row == characters.count - 1
             && characters.count % CHARACTERS_BY_PAGE == 0
     }
@@ -162,12 +163,7 @@ extension FeedView {
 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath) as! CharacterCell
-
-        if isLoadingCell(for: indexPath) {
-            cell.character = nil
-        } else {
-            cell.character = characters[indexPath.row]
-        }
+        cell.character = characters[indexPath.row]
 
         return cell
     }
@@ -178,10 +174,14 @@ extension FeedView {
     }
 }
 
+// MARK: - UICollectionViewDataSourcePrefetching
+
 extension FeedView: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-        if indexPaths.contains(where: isLoadingCell) {
-            presenter?.searchCharacters(withName: "", offset: characters.count)
+        // If We're in the last cell, We'll try to fetch automatically
+        // the next characters in order to have an infinite scrolling effect.
+        if indexPaths.contains(where: isLastCell) {
+            presenter?.searchCharacters(withName: searchBar.text.orEmpty, offset: characters.count)
           }
     }
 }
@@ -201,7 +201,7 @@ extension FeedView: UICollectionViewDelegateFlowLayout {
 
 extension FeedView: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        let characterName = searchBar.text ?? ""
+        let characterName = searchBar.text.orEmpty
         presenter?.searchCharacters(withName: characterName, offset: 0)
     }
 

@@ -28,6 +28,17 @@ extension String {
     }
 }
 
+extension Optional where Wrapped == String {
+    var orEmpty: String {
+        switch self {
+        case .some(let value):
+            return value
+        case .none:
+            return ""
+        }
+    }
+}
+
 // MARK: - Constraints
 
 extension UIView {
@@ -114,6 +125,8 @@ extension UIView {
                bottom: view.bottomAnchor, right: view.rightAnchor)
     }
 }
+
+// MARK: - UI
 
 extension UIViewController {
     static let hud = JGProgressHUD(style: .dark)
