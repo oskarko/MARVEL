@@ -13,10 +13,18 @@ class FeedPresenter {
     // MARK: Properties
 
     weak var view: FeedPresenterToViewProtocol?
-    var interactor: FeedPresenterToInteractorProtocol?
-    var router: FeedPresenterToRouteProtocol?
+    private let interactor: FeedPresenterToInteractorProtocol
+    private let router: FeedPresenterToRouteProtocol
 
     private var characters = [Character]()
+    var offset: Int = 0
+
+    // MARK: Lifecycle
+
+    init(interactor: FeedPresenterToInteractorProtocol, router: FeedPresenterToRouteProtocol) {
+        self.interactor = interactor
+        self.router = router
+    }
 
     // MARK: - Helpers
 
@@ -31,30 +39,36 @@ class FeedPresenter {
 // MARK: - FeedViewToPresenterProtocol
 
 extension FeedPresenter: FeedViewToPresenterProtocol {
-    func viewDidLoad() {
-        view?.showLoader()
-        interactor?.fetchCharacters(offset: 0)
+    func viewDidLoad(on view: FeedPresenterToViewProtocol) {
+        self.view = view
+        self.view?.showLoader()
+        interactor.fetchCharacters(offset: 0)
     }
 
     func searchCharacters(withName name: String, offset: Int) {
+        self.offset = offset
         // For UICollectionView Infinite Scrolling,
         // We show the loading alert message just the first time.
         if offset == 0 {
             view?.showLoader()
         }
-        interactor?.searchCharacters(withName: name, offset: offset)
+        interactor.searchCharacters(withName: name, offset: offset)
         view?.dismissKeyBoard()
     }
 
     func searchBarCancelButtonClicked() {
         view?.showLoader()
-        interactor?.fetchCharacters(offset: 0)
+        interactor.fetchCharacters(offset: 0)
         view?.configureSearchBar(shouldShow: false)
     }
 
     // Route to DetailsView
     func didSelectCharacter(_ view: FeedPresenterToViewProtocol, character: Character) {
-        router?.routeToDetailsView(view, character: character)
+        guard let view = self.view else {
+            assertionFailure("view should be available on Presenter")
+            return
+        }
+        router.routeToDetailsView(view, character: character)
     }
 
     func handleShowSearchBar() {
@@ -66,9 +80,9 @@ extension FeedPresenter: FeedViewToPresenterProtocol {
 
 extension FeedPresenter: FeedInteractorToPresenterProtocol {
 
-    func fetchCharactersWithSuccess(_ characters: [Character], append: Bool) {
+    func fetchCharactersWithSuccess(_ characters: [Character]) {
         view?.dismissLoader()
-        if append {
+        if offset > 0 {
             self.characters.append(contentsOf: characters)
             let indexPathsToRelod = calculateIndexPathsToReload(from: characters)
             view?.fetchCharactersWithSuccess(characters, indexPathsToReload: indexPathsToRelod)

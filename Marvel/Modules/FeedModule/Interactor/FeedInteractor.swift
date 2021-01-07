@@ -13,27 +13,31 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
     // MARK: Properties
 
     weak var presenter: FeedInteractorToPresenterProtocol?
-    var localDatamanager: FeedInteractorToLocalDataManagerProtocol?
-    var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol?
-
-    var offset: Int = 0
-
+    var localDatamanager: FeedInteractorToLocalDataManagerProtocol
+    var remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol
+    
+    // MARK: Lifecycle
+    
+    init(localDatamanager: FeedInteractorToLocalDataManagerProtocol,
+         remoteDatamanager: FeedInteractorToRemoteDataManagerProtocol) {
+        self.localDatamanager = localDatamanager
+        self.remoteDatamanager = remoteDatamanager
+    }
+    
     func fetchCharacters(offset: Int) {
-        self.offset = offset
         // call to our remoteService to get MARVEL characters.
-        remoteDatamanager?.fetchCharacters(offset: offset)
+        remoteDatamanager.fetchCharacters(offset: offset)
     }
 
     func searchCharacters(withName name: String, offset: Int) {
-        self.offset = offset
         if !name.isEmpty {
             // call to our remoteService to get MARVEL characters
             // with such as name contains this one.
             // Don't forget to replace spaces by "_" in order to get the API works fine.
             let strippedName = name.replacingOccurrences(of: " ", with: "_")
-            remoteDatamanager?.searchCharacters(withName: strippedName, offset: offset)
+            remoteDatamanager.searchCharacters(withName: strippedName, offset: offset)
         } else {
-            remoteDatamanager?.fetchCharacters(offset: offset)
+            remoteDatamanager.fetchCharacters(offset: offset)
         }
     }
 
@@ -44,11 +48,17 @@ class FeedInteractor: FeedPresenterToInteractorProtocol {
 extension FeedInteractor: FeedRemoteDataManagerToInteractorProtocol {
     func fetchCharactersWithSuccess(_ characters: [Character]) {
         // We got characters from MARVEL API successfully!
-        presenter?.fetchCharactersWithSuccess(characters, append: offset > 0)
+        presenter?.fetchCharactersWithSuccess(characters)
     }
 
     func fetchCharactersWithFail(_ error: Error) {
         // We got some errors while fetching characters from MARVEL API.
         presenter?.fetchCharactersWithFail(error)
     }
+}
+
+// MARK: FeedLocalDataManagerToInteractorProtocol
+
+extension FeedInteractor: FeedLocalDataManagerToInteractorProtocol {
+
 }

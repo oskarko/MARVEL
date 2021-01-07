@@ -10,4 +10,7 @@ import Foundation
 
 class FeedLocalDataManager:FeedInteractorToLocalDataManagerProtocol {
 
+    // MARK: Properties
+
+    weak var interactor: FeedLocalDataManagerToInteractorProtocol?
 }

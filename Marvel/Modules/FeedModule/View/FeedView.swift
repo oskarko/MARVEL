@@ -15,23 +15,32 @@ class FeedView: UICollectionViewController {
 
     // MARK: Properties
 
-    var presenter: FeedViewToPresenterProtocol?
+    var presenter: FeedViewToPresenterProtocol
 
     private let searchBar = UISearchBar()
     private var characters = [Character]()
 
     // MARK: Lifecycle
 
+    init(presenter: FeedViewToPresenterProtocol, collectionViewLayout: UICollectionViewFlowLayout) {
+        self.presenter = presenter
+        super.init(collectionViewLayout: collectionViewLayout)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        presenter?.viewDidLoad()
+        presenter.viewDidLoad(on: self)
     }
 
     // MARK: - Selectors
 
     @objc func handleShowSearchBar() {
-        presenter?.handleShowSearchBar()
+        presenter.handleShowSearchBar()
     }
 
     // MARK: - Helpers
@@ -170,7 +179,7 @@ extension FeedView {
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let character = characters[indexPath.row]
-        presenter?.didSelectCharacter(self, character: character)
+        presenter.didSelectCharacter(self, character: character)
     }
 }
 
@@ -181,7 +190,7 @@ extension FeedView: UICollectionViewDataSourcePrefetching {
         // If We're in the last cell, We'll try to fetch automatically
         // the next characters in order to have an infinite scrolling effect.
         if indexPaths.contains(where: isLastCell) {
-            presenter?.searchCharacters(withName: searchBar.text.orEmpty, offset: characters.count)
+            presenter.searchCharacters(withName: searchBar.text.orEmpty, offset: characters.count)
           }
     }
 }
@@ -202,11 +211,11 @@ extension FeedView: UICollectionViewDelegateFlowLayout {
 extension FeedView: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         let characterName = searchBar.text.orEmpty
-        presenter?.searchCharacters(withName: characterName, offset: 0)
+        presenter.searchCharacters(withName: characterName, offset: 0)
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        presenter?.searchBarCancelButtonClicked()
+        presenter.searchBarCancelButtonClicked()
     }
 
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

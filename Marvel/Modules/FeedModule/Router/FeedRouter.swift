@@ -11,22 +11,18 @@ import UIKit
 
 class FeedRouter: FeedPresenterToRouteProtocol {
 
-    class func createFeedModule(navController: Bool) -> UIViewController {
-        let view = FeedView(collectionViewLayout: UICollectionViewFlowLayout())
-        let presenter: FeedViewToPresenterProtocol & FeedInteractorToPresenterProtocol = FeedPresenter()
-        let interactor: FeedPresenterToInteractorProtocol
-            & FeedRemoteDataManagerToInteractorProtocol = FeedInteractor()
-        let localDataManager: FeedInteractorToLocalDataManagerProtocol = FeedLocalDataManager()
-        let remoteDataManager: FeedInteractorToRemoteDataManagerProtocol = FeedRemoteDataManager()
-        let router: FeedPresenterToRouteProtocol = FeedRouter()
+    func createFeedModule(navController: Bool) -> UIViewController {
 
-        view.presenter = presenter
-        presenter.view = view
-        presenter.router = router
-        presenter.interactor = interactor
+        let localDataManager = FeedLocalDataManager()
+        let remoteDataManager = FeedRemoteDataManager()
+        let interactor = FeedInteractor(localDatamanager: localDataManager,
+                                        remoteDatamanager: remoteDataManager)
+        let presenter = FeedPresenter(interactor: interactor, router: self)
+        let view = FeedView(presenter: presenter, collectionViewLayout: UICollectionViewFlowLayout())
+
+        // weak references
         interactor.presenter = presenter
-        interactor.localDatamanager = localDataManager
-        interactor.remoteDatamanager = remoteDataManager
+        localDataManager.interactor = interactor
         remoteDataManager.interactor = interactor
 
         if navController {

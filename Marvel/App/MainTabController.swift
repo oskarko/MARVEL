@@ -33,7 +33,7 @@ class MainTabController: UITabBarController {
 //        let feedNav = templateNavigationController(image: UIImage(named: "home_unselected"),
 //                                                   rootViewController: feed)
 
-        let feed = FeedRouter.createFeedModule(navController: false)
+        let feed = FeedRouter().createFeedModule(navController: false)
         let feedNav = templateNavigationController(image: UIImage(systemName: "list.bullet"),
                                                    rootViewController: feed)
 

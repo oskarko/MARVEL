@@ -12,7 +12,7 @@ class FeedRemoteDataManager:FeedInteractorToRemoteDataManagerProtocol {
 
     // MARK: Properties
 
-    var interactor: FeedRemoteDataManagerToInteractorProtocol?
+    weak var interactor: FeedRemoteDataManagerToInteractorProtocol?
 
     func fetchCharacters(offset: Int) {
         // call to MARVEL API to get characters
